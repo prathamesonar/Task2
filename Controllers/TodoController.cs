@@ -33,5 +33,17 @@ namespace TodoApi.Controllers
             todos.Remove(todo);
             return Ok("Task deleted");
         }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateTodo(int id, TodoItem updatedItem){
+            if (string.IsNullOrWhiteSpace(updatedItem.Title))
+                return BadRequest("title is required");
+            var todo = todos.FirstOrDefault(t => t.Id == id);
+            if (todo == null)
+                return NotFound("task not found");
+            todo.Title = updatedItem.Title;
+            todo.IsCompleted = updatedItem.IsCompleted;
+            return Ok(todo);
+        }
     }
 }
