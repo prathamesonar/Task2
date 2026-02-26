@@ -21,6 +21,8 @@ namespace TodoApi.Controllers
                 return BadRequest("Title is required");
             item.Id = todos.Count == 0 ? 1 : todos.Max(t => t.Id) + 1;
             item.IsCompleted = false;
+            item.CreatedOn = DateTime.UtcNow;
+            item.ModifiedOn = DateTime.UtcNow;
             todos.Add(item);
             return Ok(item);
         }
@@ -43,6 +45,7 @@ namespace TodoApi.Controllers
                 return NotFound("task not found");
             todo.Title = updatedItem.Title;
             todo.IsCompleted = updatedItem.IsCompleted;
+            todo.ModifiedOn = DateTime.UtcNow;
             return Ok(todo);
         }
     }
